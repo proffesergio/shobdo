@@ -1,5 +1,19 @@
 # Local validation — 2026-10-19
 
+## Latest: accepted hosted preview and production handoff
+
+User reports `https://shobdo-web.vercel.app` is live and accepts this address.
+Agent web and shell requests could not verify the response, deployed revision
+or browser behavior. Explicit `vercel git connect` failed before loading the
+account with `fetch failed`; native provider linkage remains unconfirmed. No
+new deployment, alias change, migration or model capability was claimed.
+
+Updated the plan and `docs/PRODUCTION_ROADMAP.md` with full product scope,
+service boundaries, four-phase acceptance gates and production evidence requirements.
+The continuation generator now includes the current stage, user-reported hosting,
+concrete next actions and the complete later roadmap. Phase 1 remains open.
+Historical validation below retains its original boundaries and dates.
+
 ## Latest: credentials, local integration and CI/CD preparation
 
 Dependencies and `package-lock.json` supplied since the earlier sessions are

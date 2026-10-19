@@ -45,6 +45,24 @@ test('handoff includes outstanding checks, blockers, and validation evidence', (
   assert.doesNotMatch(output, /Continue Phase 2/);
 });
 
+test('production vision and later roadmap do not advance the current phase', () => {
+  const input = plan();
+  input.vision = 'Native Bangla creator platform';
+  input.architecture_boundaries = ['Keep inference behind the API'];
+  input.production_acceptance = ['Prove owner isolation'];
+  const output = renderPrompt(input, {
+    deployment_summary: 'UI live by user report; API unverified',
+    immediate_next_steps: ['Verify the isolated development branch'],
+  });
+  for (const expected of ['Continue Phase 1', 'Native Bangla creator platform',
+    'Keep inference behind the API', 'Prove owner isolation', 'Phase 2: Engine',
+    'Verify the isolated development branch', 'UI live by user report']) {
+    assert.ok(output.includes(expected));
+  }
+  assert.doesNotMatch(output, /Continue Phase 2/);
+  assert.equal(selectNextPhase(input).id, 1);
+});
+
 test('generation synchronizes both outputs and check detects subsequent drift', async () => {
   const directory = await mkdtemp(path.join(tmpdir(), 'shobdo-continuation-'));
   try {

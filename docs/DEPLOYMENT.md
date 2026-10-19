@@ -1,9 +1,81 @@
 # Shobdo deployment and automatic delivery
 
+## Current state (supersedes earlier failed attempts)
+
+The user reports <https://shobdo-web.vercel.app> is live and accepts that URL.
+Agent web/shell fetches could not independently verify it. Preserve the existing
+site; shorter-alias work is deferred. Backend/inference readiness and remote
+product acceptance remain pending. See [production roadmap](PRODUCTION_ROADMAP.md)
+for the full delivery vision and acceptance gates.
+
+The user reports the GitHub/Vercel repository connection was completed manually.
+This supersedes the earlier CLI attempt, which failed before account lookup with
+`fetch failed`. The provider connection has not been independently verified from
+this shell. Git authentication/push, root `.vercel` project metadata, and the
+provider connection are separate states. Confirm the Vercel GitHub App can access
+this repository and verify project roots, remote CI execution and secret presence
+without exposing values.
+The checked-in `git.deploymentEnabled=false` settings still disable native Git
+auto-deploy: repository connection alone will not enable it. Verify the chosen
+GitHub Actions release route, project configuration and secret presence before
+claiming automatic deployment works. Do not enable a parallel ungated production
+deploy path. [Vercel Git command](https://vercel.com/docs/cli/git)
+
+The sections below retain historical attempts and setup guidance; they do not
+negate the user's later report that the frontend is now hosted.
+
 The local repository has `origin` set to
-`https://github.com/proffesergio/shobdo.git`. No commit or push has been made.
-Remote history has not been inspected. GitHub CLI reports an invalid saved
-token. The workflow exists locally; it is not yet active on GitHub.
+`https://github.com/proffesergio/shobdo.git`. The user manually committed and
+pushed; local `main` and cached `origin/main` both point to
+`8af414f00ae106bd6a456b39fa5884c74d6d1b0b`, including the lockfile and workflow.
+Remote workflow execution has not been verified. GitHub CLI still reports an
+invalid saved token; Git authentication can work independently of that token.
+
+## First-look UI preview
+
+Requested public alias: `shobdo.vercel.app`. A subsequent agent-shell deploy
+attempt failed before upload with `Not able to load user ... fetch failed`.
+Alias availability and ownership have not been verified, and it has not been
+assigned. Once the deployment command below succeeds, copy its deployment URL
+and run this from the working terminal:
+
+```powershell
+$deploymentUrl = Read-Host "Paste the successful Vercel deployment URL"
+vercel alias set $deploymentUrl shobdo.vercel.app --scope proffesergios-projects
+```
+
+Vercel must accept the alias assignment before reporting that address as live.
+If the name belongs to a different account, use an available name or a domain
+you control. [Alias command reference](https://vercel.com/docs/cli/alias)
+
+The user explicitly authorized a UI preview before completing Phase 1.
+`shobdo-web` now exists with ID `prj_l1pvACkjKpYNZF7YL3thWdk4TLId`, and root
+`.vercel/project.json` links to it. The project-settings API failed, so
+`vercel.preview.json` builds a static export from the repository root and serves
+`apps/web/out`. It does not depend on changing the remote monorepo root setting.
+
+From the working user terminal, run:
+
+```powershell
+Set-Location C:\Users\bhnbi\Music\shobdo
+vercel deploy --local-config vercel.preview.json --build-env UI_PREVIEW_ONLY=true --yes --scope proffesergios-projects
+```
+
+This creates a preview deployment. `UI_PREVIEW_ONLY=true` enables Next.js static
+export and omits backend rewrites. Editing, opt-in browser drafts and text export
+are the implemented UI scope; API, generation, audio and cloning remain
+unavailable. No database or AWS credentials should be configured for the preview.
+The upload exclusions omit environment files, Python environments and Neon
+context. The browser scanner now also includes exported HTML/assets in `apps/web/out`.
+Production CI/CD acceptance gates remain in place.
+
+The agent's deployment dry run failed at project retrieval with
+`ECONNREFUSED 127.0.0.1:9`; no upload or preview URL was created. The local static
+export build encountered Windows `spawn EPERM`; a worker-thread attempt failed
+with `DataCloneError` and was removed. The final configuration uses the default
+Next.js workers and relies on Vercel's remote Linux build. Config checks verified
+preview export/no rewrites and unchanged normal API proxy behavior; web typecheck
+passed. The remote preview build is unverified until the deployment succeeds.
 
 ## Observed validation on 2026-10-19
 
@@ -34,13 +106,14 @@ token. The workflow exists locally; it is not yet active on GitHub.
 | Application | Root Directory | Framework | Status |
 | --- | --- | --- | --- |
 | `shobdo-api` | `apps/api` | Other | Created; root/settings update failed, no deployment |
-| `shobdo-web` | `apps/web` | Next.js | Not created or linked |
+| `shobdo-web` | `apps/web` for connected app; repository root for static preview | Remote settings unverified | Live and GitHub connected by user report; agent verification and CI status pending |
 | `shobdo-admin` | `apps/admin` | Next.js | Not created or linked |
 
 The API project ID is `prj_bIQu96ZHXFRiXBE4YmeoK2jV5z4s`; the verified account
 scope is `proffesergios-projects`, organization ID
 `team_m6SDnGnsVUsbqrtGRdQvqsWd`. The local `.vercel/project.json` links to that
-API project. Its monorepo root setting must be corrected before deploying.
+web project after the first-look session. The API monorepo root setting still
+needs correction before backend deployment.
 
 Run Vercel CLI from the repository root, selecting the intended project for
 each operation. Set Root Directory and enable source files outside that root

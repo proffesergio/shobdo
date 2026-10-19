@@ -25,7 +25,7 @@ async function inspect(directory) {
     }
   }
 }
-for (const directory of ['apps/web/.next/static', 'apps/admin/.next/static', '.vercel/output/static']) {
+for (const directory of ['apps/web/.next/static', 'apps/web/out', 'apps/admin/.next/static', '.vercel/output/static']) {
   try { if ((await stat(directory)).isDirectory()) await inspect(directory); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
 }

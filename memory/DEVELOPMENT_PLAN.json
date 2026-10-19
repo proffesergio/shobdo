@@ -6,10 +6,10 @@
       "tasks": [
         {
           "id": "monorepo",
-          "status": "implemented",
+          "status": "done",
           "description": "Create independent Next.js web/admin, Node API, typed client, Drizzle database, and native Python package boundaries",
           "acceptance": "Install dependencies, commit a generated lockfile, and pass npm run typecheck and npm run build",
-          "progress": "2026-10-19: existing installed dependencies and generated lockfile verified; full typechecks and both builds pass. Local Git/origin configured, no commit yet; fresh advisory review and reproducible npm ci pending."
+          "progress": "2026-10-19: installed dependencies/lockfile observed; full workspace typechecks and both production builds passed in prior session. Lockfile now committed in observed 8af414f; main matches cached origin/main after user manual push. First-look static preview build/deploy is separately unverified; reproducible npm ci and fresh online advisory review remain recorded checks."
         },
         {
           "id": "database",
@@ -36,7 +36,14 @@
           "status": "blocked",
           "description": "Document local configuration, package setup, and validation commands",
           "acceptance": "Smoke-test both apps after installation and verify the Python 3.11 package import",
-          "progress": "2026-10-19: all three apps started and HTTP-smoked; docs updated with actual credentials/CI/CD results. Browser unavailable; UI smoke checks and installed Python 3.11 package validation pending. No successful deployment."
+          "progress": "2026-10-19: all three apps previously started and HTTP-smoked. User now reports frontend live at shobdo-web.vercel.app and accepts URL; agent remote verification unavailable. UI browser acceptance and installed Python 3.11 package validation remain pending. Production roadmap and concrete continuation actions are documented."
+        },
+        {
+          "id": "delivery-connection",
+          "status": "blocked",
+          "description": "Verify repository linkage, preview hosting and the chosen gated CI/CD route for separate frontend/backend projects",
+          "acceptance": "Confirm Vercel GitHub link or an explicitly documented Actions-only delivery route, verify a remote CI validation run and project/secret configuration without exposing values, and confirm preview versus production routing and release-gate behavior",
+          "progress": "2026-10-19: user reports GitHub/Vercel repository connection was completed manually and shobdo-web.vercel.app is live and accepted. Connection and hosting are user-reported, not independently verified in this shell. Remote CI execution, project roots, secrets, routing, and release-gate behavior remain unverified. Native Git deployment is intentionally disabled in app configs; connection alone does not establish automatic deployment."
         }
       ]
     },
@@ -57,6 +64,12 @@
           "acceptance": "Pass representative Bangla fixtures with explicit ambiguity rules"
         },
         {
+          "id": "native-model-training",
+          "status": "pending",
+          "description": "Implement reproducible native SSM script and speech model training/adaptation, licensed checkpoint manifests and Bangla quality evaluation",
+          "acceptance": "Produce real checkpoint(s) with data/license/training provenance, repeatable inference, representative Bangla/code-mixed evaluation, human audio review and documented quality/resource limits; specify any native vocoder/speaker-conditioning component and its license"
+        },
+        {
           "id": "streaming",
           "status": "pending",
           "description": "Build inference service and audio streaming contract around a real native model",
@@ -69,11 +82,23 @@
       "name": "Creator studio and headless administration",
       "tasks": [
         {
+          "id": "auth-persistence",
+          "status": "pending",
+          "description": "Implement authentication, sessions and owner-scoped script/consent/voice/generation APIs against migrated PostgreSQL",
+          "acceptance": "Verify login/session expiry, server-side ownership/admin checks, input errors, documented CORS/CSRF behavior and cross-user denial with real database integration tests"
+        },
+        {
+          "id": "generation-jobs-media",
+          "status": "pending",
+          "description": "Implement durable inference jobs, cancellation/retry and private recording/generated-media storage with protected exports",
+          "acceptance": "Verify job ownership/idempotency, retries and cancellation, quota reservation/release, storage access and signed-download expiry; produce real UTF-8 text and supported audio formats with correct metadata and deletion/retention enforcement"
+        },
+        {
           "id": "studio",
           "status": "pending",
           "description": "Implement authentication, scripts, synthesis, prosody controls, waveform playback, and downloads",
           "acceptance": "Verify authenticated owner isolation and an end-to-end real generation/download flow",
-          "progress": "Requested frontend foundation exists in apps/web/app/studio.tsx (source only, unverified in browser). Authentication, server persistence, synthesis, waveform playback, and real media download remain pending; this task is not complete and Phase 1 is still current."
+          "progress": "Existing writing UI source/build and local frontend proxy requests are verified; user reports a live UI preview at shobdo-web.vercel.app. Interactive browser acceptance, auth, persistence, native script generation/synthesis, prosody/audio playback and real media download remain pending. This does not complete the studio task."
         },
         {
           "id": "voice-cloning",
@@ -110,8 +135,33 @@
           "status": "pending",
           "description": "Add Playwright end-to-end coverage and deployment hardening",
           "acceptance": "Pass release checks, document monitoring and recovery, and obtain explicit authorization for external deployment"
+        },
+        {
+          "id": "operations-release",
+          "status": "pending",
+          "description": "Complete operational readiness, privacy/security controls, measured capacity and staged production release",
+          "acceptance": "Pass staging real-user journeys, rate-limit/load/failure tests, backup restore and rollback drills; verify redacted logs/alerts, incident runbooks, retention/deletion, account/plan/secret configuration and explicitly authorized production rollout; publish only measured capability claims"
         }
       ]
     }
+  ],
+  "vision": "Deliver a Bangla-first production platform for Bangladeshi Facebook and YouTube creators: authenticated script creation with a native SSM, controllable native text-to-speech, consent-based own-voice cloning, and protected multi-format downloads, supported by an independent API, owner-scoped persistence, administration and billing. A live writing UI is an early preview, not completion of this platform.",
+  "architecture_boundaries": [
+    "Keep apps/web and apps/admin independently buildable. Use the typed HTTP client and versioned /api/v1 contract; never import database/model code or backend secrets into a frontend.",
+    "Keep authorization, persistence, quotas, billing, jobs and inference orchestration in apps/api. Keep native Python/PyTorch/CUDA inference in packages/ssm-core behind authenticated service boundaries.",
+    "Use Neon/PostgreSQL and reviewed Drizzle migrations. Isolate development/staging/production data; keep credentials server-only and out of logs, Git and browser bundles.",
+    "Develop the core script/speech/voice pipeline natively with SSMs. Validate architecture, versions, hardware, datasets and licenses before selection; hosted generative APIs are not a substitute.",
+    "Distinguish source implementation, local validation, user-reported hosting and independently verified product behavior. Keep missing features disabled and labeled; retain measured evidence."
+  ],
+  "production_acceptance": [
+    "Reproducible clean installs/builds, current advisory review, passing meaningful unit/integration/browser tests, reviewed migrations and owner-isolation/authorization failures tested against real services.",
+    "An authenticated creator completes a real native script-to-audio generation and protected download; Bangla digits, dates, identifiers, conjuncts and code mixing pass representative fixtures and human/metric evaluation.",
+    "Own-voice enrollment requires explicit consent; recordings, embeddings and media are private. Revocation, deletion and retention are enforced and verified, including signed-download expiry.",
+    "Native checkpoints have reproducible provenance, licensed datasets, compatible runtime/GPU manifests and quality evaluations. Streaming, cancellation, backpressure, latency and capacity measurements record workload/hardware/checkpoint and measurement boundaries.",
+    "Validated speed, volume, emotion and pronunciation controls reach real inference. No simulated audio or untrained models are presented as usable synthesis.",
+    "Server-side quotas, billing entitlements and admin roles are enforced. Provider sandbox webhook signatures, replay handling, idempotency and quota races pass before live billing.",
+    "Frontend, API and inference routes/secrets are independently configured and smoke-tested in staging. CI/CD has one verified deployment path, release gates and tested rollback; Git connection alone is not deployment evidence.",
+    "Operations include readiness reflecting actual dependencies, structured redacted logs, metrics/alerts, rate limits, backup restore drill, incident/runbook ownership and an agreed load/cost/capacity plan.",
+    "Accessibility, responsive Bangla UI, privacy/consent terms and documented limitations are reviewed. No SOC2/HIPAA, near-perfect accuracy, A10G support or latency claim without measured/audited evidence."
   ]
 }
