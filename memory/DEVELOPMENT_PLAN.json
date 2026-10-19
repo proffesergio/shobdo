@@ -1,0 +1,117 @@
+{
+  "phases": [
+    {
+      "id": 1,
+      "name": "Scaffolding and core infrastructure",
+      "tasks": [
+        {
+          "id": "monorepo",
+          "status": "implemented",
+          "description": "Create independent Next.js web/admin, Node API, typed client, Drizzle database, and native Python package boundaries",
+          "acceptance": "Install dependencies, commit a generated lockfile, and pass npm run typecheck and npm run build",
+          "progress": "2026-10-19: existing installed dependencies and generated lockfile verified; full typechecks and both builds pass. Local Git/origin configured, no commit yet; fresh advisory review and reproducible npm ci pending."
+        },
+        {
+          "id": "database",
+          "status": "blocked",
+          "description": "Define owner-scoped creator, script, consent, voice, and generation schema",
+          "acceptance": "Generate and review the initial Drizzle migration; apply it to an isolated Neon development database and verify ownership constraints",
+          "progress": "2026-10-19: supplied .env.local DATABASE_URL connected via read-only psql. Project/branch IDs observed, Shobdo name/isolation not verified; Neon CLI listing failed. Drizzle CLI spawn EPERM; installed Kit API generated 13-statement initial migration and metadata, reviewed but unapplied. Ownership fixture pending; schema version 0."
+        },
+        {
+          "id": "continuity",
+          "status": "done",
+          "description": "Maintain project memory and automatically derive the continuation prompt",
+          "acceptance": "npm test and npm run continuation:check pass"
+        },
+        {
+          "id": "api-communication",
+          "status": "blocked",
+          "description": "Provide independent API startup/configuration/tests, OpenAPI contract, typed client, and frontend connection status",
+          "acceptance": "Pass API integration checks and verify actual requests from both running Next.js applications, unavailable states, validation errors, denied admin access, and configured CORS behavior",
+          "progress": "2026-10-19: API/client and new Vercel adapter HTTP checks pass (15 total tests). Actual web/admin proxies on 3000/3001 verify 200 capabilities, 400 validation, 401 admin, 403 denied origin and stopped-API 500. Unit CORS allowlist tests pass; visible browser states and configured allowed-origin browser acceptance remain pending because browser unavailable."
+        },
+        {
+          "id": "local-setup",
+          "status": "blocked",
+          "description": "Document local configuration, package setup, and validation commands",
+          "acceptance": "Smoke-test both apps after installation and verify the Python 3.11 package import",
+          "progress": "2026-10-19: all three apps started and HTTP-smoked; docs updated with actual credentials/CI/CD results. Browser unavailable; UI smoke checks and installed Python 3.11 package validation pending. No successful deployment."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "SSM engine and native inference pipeline",
+      "tasks": [
+        {
+          "id": "model-feasibility",
+          "status": "pending",
+          "description": "Evaluate native SSM architecture, licensed datasets, tokenizer, training plan, and PyTorch/CUDA environment",
+          "acceptance": "Document reproducible runtime and architecture selection, data permissions, GPU requirements, and checkpoint provenance"
+        },
+        {
+          "id": "bangla-normalization",
+          "status": "pending",
+          "description": "Implement and validate Bangla normalization and G2P, numbers, dates, IDs, and code mixing",
+          "acceptance": "Pass representative Bangla fixtures with explicit ambiguity rules"
+        },
+        {
+          "id": "streaming",
+          "status": "pending",
+          "description": "Build inference service and audio streaming contract around a real native model",
+          "acceptance": "Verify cancellation, backpressure, error handling, and real audio; benchmark first-chunk latency with hardware and checkpoint recorded"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Creator studio and headless administration",
+      "tasks": [
+        {
+          "id": "studio",
+          "status": "pending",
+          "description": "Implement authentication, scripts, synthesis, prosody controls, waveform playback, and downloads",
+          "acceptance": "Verify authenticated owner isolation and an end-to-end real generation/download flow",
+          "progress": "Requested frontend foundation exists in apps/web/app/studio.tsx (source only, unverified in browser). Authentication, server persistence, synthesis, waveform playback, and real media download remain pending; this task is not complete and Phase 1 is still current."
+        },
+        {
+          "id": "voice-cloning",
+          "status": "pending",
+          "description": "Implement own-voice enrollment, consent, revocation/deletion, and voice conversion",
+          "acceptance": "Validate sample handling and prevent use after consent revocation"
+        },
+        {
+          "id": "admin-billing",
+          "status": "pending",
+          "description": "Add role-gated admin, measured telemetry, quotas, and bKash/Stripe integration",
+          "acceptance": "Verify permissions, webhook signatures, idempotency, and quota enforcement in sandbox environments"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Growth and enterprise deployment",
+      "tasks": [
+        {
+          "id": "growth",
+          "status": "pending",
+          "description": "Add factual SEO pages, structured metadata, and llms.txt",
+          "acceptance": "Validate indexable content and metadata against actual product capabilities"
+        },
+        {
+          "id": "agents",
+          "status": "pending",
+          "description": "Implement managed voice-agent interfaces",
+          "acceptance": "Verify consent, authentication, and real-time integration in a controlled environment"
+        },
+        {
+          "id": "deployment",
+          "status": "pending",
+          "description": "Add Playwright end-to-end coverage and deployment hardening",
+          "acceptance": "Pass release checks, document monitoring and recovery, and obtain explicit authorization for external deployment"
+        }
+      ]
+    }
+  ]
+}

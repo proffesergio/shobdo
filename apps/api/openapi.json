@@ -1,0 +1,84 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Shobdo scaffold API",
+    "version": "0.1.0",
+    "description": "Infrastructure only. No synthesis, script generation, authentication, or database operations are implemented. Browser credentials are omitted; no cookies are issued. Mutations are unavailable. Every response has X-Request-Id. Errors share the Error schema. Cross-origin requests require an exact configured origin; preflight permits GET and Accept/Content-Type only."
+  },
+  "servers": [{ "url": "http://127.0.0.1:4000" }],
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "getLiveness",
+        "responses": {
+          "200": { "description": "HTTP process is responding; does not imply product readiness", "content": { "application/json": { "schema": { "type": "object", "required": ["data", "requestId"], "properties": { "data": { "type": "object", "required": ["status"], "properties": { "status": { "const": "alive" } } }, "requestId": { "type": "string", "format": "uuid" } } } } } },
+          "default": { "$ref": "#/components/responses/Failure" }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "getReadiness",
+        "responses": {
+          "503": { "description": "Required dependencies are not verified. Configured database URLs are not treated as connectivity evidence.", "content": { "application/json": { "schema": { "allOf": [{ "$ref": "#/components/schemas/Error" }, { "type": "object", "required": ["dependencies"], "properties": { "dependencies": { "type": "object", "required": ["database", "inference"], "properties": { "database": { "enum": ["not_configured", "unverified"] }, "inference": { "const": "not_implemented" } } } } }] } } } },
+          "default": { "$ref": "#/components/responses/Failure" }
+        }
+      }
+    },
+    "/api/v1/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "description": "Returns factual implementation status, not generated content. Only locale is accepted; duplicate or unknown query parameters are rejected.",
+        "parameters": [{ "name": "locale", "in": "query", "schema": { "type": "string", "enum": ["bn", "en"], "default": "bn" } }],
+        "responses": {
+          "200": { "description": "Scaffold capabilities", "content": { "application/json": { "schema": { "type": "object", "required": ["data", "requestId"], "properties": { "data": { "$ref": "#/components/schemas/Capabilities" }, "requestId": { "type": "string", "format": "uuid" } } } } } },
+          "400": { "$ref": "#/components/responses/Failure" },
+          "403": { "$ref": "#/components/responses/Failure" },
+          "default": { "$ref": "#/components/responses/Failure" }
+        }
+      }
+    },
+    "/api/v1/admin/status": {
+      "get": {
+        "operationId": "getAdminStatus",
+        "description": "Fail-closed placeholder. Always returns 401, including with an Authorization header. No login or token verifier is implemented.",
+        "responses": { "401": { "$ref": "#/components/responses/Failure" }, "default": { "$ref": "#/components/responses/Failure" } }
+      }
+    },
+    "/api/v1/openapi.json": {
+      "get": {
+        "operationId": "getOpenApi",
+        "responses": {
+          "200": { "description": "This OpenAPI document, returned directly without an envelope", "content": { "application/json": { "schema": { "type": "object", "required": ["openapi", "info", "paths", "components"] } } } },
+          "default": { "$ref": "#/components/responses/Failure" }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Failure": {
+        "description": "400 INVALID_REQUEST, 401 UNAUTHORIZED, 403 ORIGIN_NOT_ALLOWED or HEADERS_NOT_ALLOWED, 404 NOT_FOUND, 405 METHOD_NOT_ALLOWED, or 500 INTERNAL_ERROR. No stack traces or credential values.",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": { "error": { "type": "object", "required": ["code", "message", "requestId"], "properties": { "code": { "type": "string" }, "message": { "type": "string" }, "requestId": { "type": "string", "format": "uuid" } }, "additionalProperties": false } }
+      },
+      "Capabilities": {
+        "type": "object",
+        "required": ["product", "locale", "stage", "capabilities"],
+        "properties": {
+          "product": { "const": "Shobdo" },
+          "locale": { "enum": ["bn", "en"] },
+          "stage": { "const": "scaffold" },
+          "capabilities": { "type": "object", "required": ["scripts", "speech", "voiceCloning"], "properties": { "scripts": { "const": "not_implemented" }, "speech": { "const": "not_implemented" }, "voiceCloning": { "const": "not_implemented" } }, "additionalProperties": false }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

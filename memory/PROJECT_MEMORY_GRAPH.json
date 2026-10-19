@@ -1,0 +1,197 @@
+{
+  "project": "Shobdo",
+  "organization": "Bhasha Labs",
+  "last_updated": "2026-10-19T05:06:01.363Z",
+  "current_phase": "Phase 1: Scaffolding and core infrastructure",
+  "tech_stack_frozen": false,
+  "completed_features": [
+    {
+      "feature": "Repository guidance and initial project memory",
+      "status": "done",
+      "files": [
+        "AGENTS.md",
+        "memory/PROJECT_MEMORY_GRAPH.json"
+      ],
+      "commit": null
+    },
+    {
+      "feature": "Phase 1 monorepo, static web/admin pages, database schema, and native Python package boundary",
+      "status": "implemented_typecheck_and_build_verified",
+      "files": [
+        "package.json",
+        "apps/web",
+        "apps/admin",
+        "packages/db",
+        "packages/ssm-core",
+        "README.md"
+      ],
+      "commit": null
+    },
+    {
+      "feature": "Plan-driven continuation generator with stale-output detection",
+      "status": "done",
+      "files": [
+        "AGENTS.md",
+        "scripts/continuation.mjs",
+        "tests/continuation.test.mjs",
+        "memory/DEVELOPMENT_PLAN.json"
+      ],
+      "commit": null
+    },
+    {
+      "feature": "Independent Node API, OpenAPI contract, typed client, and HTTP integration tests",
+      "status": "implemented_api_verified_frontend_pending",
+      "files": [
+        "apps/api",
+        "packages/api-client",
+        "apps/web/app/api-status.tsx",
+        "apps/admin/app/api-status.tsx",
+        "apps/web/next.config.mjs",
+        "apps/admin/next.config.mjs"
+      ],
+      "commit": null
+    },
+    {
+      "feature": "Rollback-only database ownership fixture",
+      "status": "prepared_not_executed",
+      "files": [
+        "packages/db/tests/ownership.sql"
+      ],
+      "commit": null
+    },
+    {
+      "feature": "Bangla writing workspace foundation with optional browser draft and UTF-8 text export",
+      "status": "build_and_http_verified_browser_pending",
+      "files": [
+        "apps/web/app/studio.tsx",
+        "apps/web/app/page.tsx",
+        "apps/web/app/globals.css",
+        "apps/web/app/api-status.tsx",
+        "README.md",
+        "memory/LOCAL_VALIDATION.md"
+      ],
+      "commit": null,
+      "limitations": "Local text editing only. Both frontend builds and HTTP proxy integration passed; interactive browser/storage/export acceptance pending. No real inference, authentication or server persistence."
+    },
+    {
+      "feature": "Vercel API adapter and GitHub Actions deployment configuration",
+      "status": "implemented_locally_verified_remote_setup_pending",
+      "files": [
+        "apps/api/api/index.mjs",
+        "apps/api/vercel.json",
+        "apps/web/vercel.json",
+        "apps/admin/vercel.json",
+        ".github/workflows/ci-deploy.yml",
+        "scripts/check-browser-secrets.mjs",
+        "scripts/check-release-readiness.mjs",
+        "docs/DEPLOYMENT.md"
+      ],
+      "commit": null,
+      "limitations": "API adapter HTTP test passes. Workflow is not published/executed; Vercel project/secret setup and Phase 1 acceptance remain incomplete."
+    },
+    {
+      "feature": "Generated and reviewed initial Drizzle migration",
+      "status": "generated_reviewed_not_applied",
+      "files": [
+        "packages/db/migrations/0000_initial.sql",
+        "packages/db/migrations/meta/0000_snapshot.json",
+        "packages/db/migrations/meta/_journal.json"
+      ],
+      "commit": null
+    }
+  ],
+  "active_feature": "Phase 1: verify isolated Neon branch and migration/ownership, finish browser and package/advisory acceptance, configure GitHub/Vercel CI/CD",
+  "latest_verification_attempt": {
+    "date": "2026-10-19",
+    "dependencies": "Existing installed dependencies and lockfile now present; full typechecks and both builds passed. Observed Next 15.5.28, React/React DOM 19.3.1, Drizzle ORM 0.44.7, Kit 0.31.11, Neon serverless 1.2.0, TypeScript 5.9.3. Offline audit zero findings is not a current online review.",
+    "database": "Read-only psql connection succeeded with supplied .env.local credentials; only DATABASE_URL copied to ignored root .env. Project/branch IDs observed, name and isolation unverified. Neon listing failed. Drizzle CLI spawn EPERM; programmatic installed Kit API generated initial migration (13 statements), reviewed but unapplied. Ownership fixture not run.",
+    "frontend": "Both production builds and startup on 3000/3001 passed. Actual proxies verified 200/400/401/403 and stopped-API 500. Browser unavailable; interactive UI acceptance pending. Credential scan passed 33 browser assets.",
+    "checks": "15 tests passed including Vercel adapter HTTP; release gate correctly fails unfinished Phase 1. YAML parser unavailable, no remote workflow run.",
+    "deployment": "Vercel whoami/project list worked; shobdo-api created. Native GitHub link rejected missing Login Connection; monorepo settings PATCH failed fetch failed. No deploy/public URLs/remote secrets. Git initialized main; origin configured; gh token invalid; no commit/push.",
+    "details": "memory/LOCAL_VALIDATION.md and docs/DEPLOYMENT.md"
+  },
+  "blockers": [
+    "Neon project/branch isolation remains unverified. PostgreSQL connectivity now works with supplied credentials, but Neon CLI project listing fails. Do not migrate until the target is verified as isolated Shobdo development; live schema version remains 0.",
+    "Interactive frontend acceptance is pending: browser inventory empty and in-app browser unavailable. HTTP proxy checks passed; visual layout, keyboard, storage, UTF-8 download and visible unavailable-state behavior are not verified.",
+    "Fresh online advisory review, reproducible npm ci and lockfile commit remain pending. Offline audit zero findings is not current security evidence. Drizzle CLI spawn EPERM; initial migration was generated via its installed API instead.",
+    "GitHub CLI saved token is invalid. No remote history fetch, commit, push, repository secrets or Actions execution. Origin is configured to the requested repository.",
+    "Vercel shobdo-api exists but monorepo root/settings update failed. Native GitHub linking requires a Login Connection; Actions token deployment can operate independently. Web/admin projects, routing, secrets, plan eligibility and remote smoke tests remain pending. Network/proxy failures are inconsistent; do not change restrictions or repeat unchanged failed requests.",
+    "Python 3.11 source import previously passed; editable package installation remains unverified due prior build dependency/temp-directory failures."
+  ],
+  "model_decisions": [],
+  "planned_stack": {
+    "web": "Next.js",
+    "api": "Independent standard-library Node HTTP service with OpenAPI and shared typed browser client",
+    "database": "Neon PostgreSQL with Drizzle ORM",
+    "inference": "Native PyTorch/CUDA SSM service; architecture and checkpoint undecided"
+  },
+  "database_schema_version": 0,
+  "database_schema_draft_version": 1,
+  "inference_endpoint_status": "not_implemented",
+  "validation": [
+    "2026-10-19 credentials/CI session: full workspace typechecks, both builds and 15 HTTP/continuation tests passed. Actual Next proxies on 3000/3001 reached API 4000 and returned 200/400/401/403; stopped API returned 500. Credential scan passed 33 assets. Read-only live psql succeeded. Migration generated/reviewed but not applied; browser, online audit, installed Python package, workflow and deployment verification remain pending.",
+    "2026-10-19 follow-up: npm test passed 14/14. Environment inspection confirmed unchanged blocking proxy/offline settings; no repeated npm/Neon network attempts, no restriction changes, and no new frontend/database/deployment verification.",
+    "2026-10-19 current session: npm test passed 14 tests (9 real loopback API/client integration checks, 5 continuation checks). These do not validate the frontend UI.",
+    "2026-10-19 current session: npm run dev:api started on 127.0.0.1:4000. Actual HTTP results: live 200, ready 503 (database not_configured/inference not_implemented), capabilities 200 scaffold, invalid locale 400, admin 401.",
+    "2026-10-19 current session: npm install failed ECONNREFUSED 127.0.0.1:9; Neon project list failed unreachable API; full typecheck failed missing dependencies; build and dev:web failed missing next. No frontend browser/proxy verification, Neon connection/migration/ownership check, or Vercel deployment.",
+    "Earlier session: API workspace tests passed; shared api-client declaration check passed with global tsc. Python 3.11.15 venv source import passed with PYTHONPATH, but editable package install remains unverified.",
+    "Rollback-only packages/db/tests/ownership.sql is prepared, never executed. Full evidence and next validation checklist: memory/LOCAL_VALIDATION.md."
+  ],
+  "repository_status": "Local Git initialized on main with requested origin; no commits, fetch or push. Lockfile/dependencies exist. Builds/typechecks/HTTP integration verified. Read-only Neon access verified but branch isolation/migration/ownership pending. Vercel API adapter and gated CI/CD prepared; API project created, no deployment. Inference not implemented.",
+  "next_agent_prompt": "# Shobdo continuation prompt\n\nRead AGENTS.md, PROJECT_SYSTEM_PROMPT.md, memory/PROJECT_MEMORY_GRAPH.json, and memory/DEVELOPMENT_PLAN.json before editing.\n\nContinue Phase 1: Scaffolding and core infrastructure.\nPreserve native SSM architecture. Report scaffolding, mocks, and real inference accurately. Do not advance phases until acceptance checks pass.\n\nRecorded active feature: Phase 1: verify isolated Neon branch and migration/ownership, finish browser and package/advisory acceptance, configure GitHub/Vercel CI/CD\nInference status: not_implemented\n\nOutstanding tasks and acceptance checks:\n- [implemented] monorepo: Create independent Next.js web/admin, Node API, typed client, Drizzle database, and native Python package boundaries\n  Acceptance: Install dependencies, commit a generated lockfile, and pass npm run typecheck and npm run build\n- [blocked] database: Define owner-scoped creator, script, consent, voice, and generation schema\n  Acceptance: Generate and review the initial Drizzle migration; apply it to an isolated Neon development database and verify ownership constraints\n- [blocked] api-communication: Provide independent API startup/configuration/tests, OpenAPI contract, typed client, and frontend connection status\n  Acceptance: Pass API integration checks and verify actual requests from both running Next.js applications, unavailable states, validation errors, denied admin access, and configured CORS behavior\n- [blocked] local-setup: Document local configuration, package setup, and validation commands\n  Acceptance: Smoke-test both apps after installation and verify the Python 3.11 package import\n\nRecorded blockers:\n- Neon project/branch isolation remains unverified. PostgreSQL connectivity now works with supplied credentials, but Neon CLI project listing fails. Do not migrate until the target is verified as isolated Shobdo development; live schema version remains 0.\n- Interactive frontend acceptance is pending: browser inventory empty and in-app browser unavailable. HTTP proxy checks passed; visual layout, keyboard, storage, UTF-8 download and visible unavailable-state behavior are not verified.\n- Fresh online advisory review, reproducible npm ci and lockfile commit remain pending. Offline audit zero findings is not current security evidence. Drizzle CLI spawn EPERM; initial migration was generated via its installed API instead.\n- GitHub CLI saved token is invalid. No remote history fetch, commit, push, repository secrets or Actions execution. Origin is configured to the requested repository.\n- Vercel shobdo-api exists but monorepo root/settings update failed. Native GitHub linking requires a Login Connection; Actions token deployment can operate independently. Web/admin projects, routing, secrets, plan eligibility and remote smoke tests remain pending. Network/proxy failures are inconsistent; do not change restrictions or repeat unchanged failed requests.\n- Python 3.11 source import previously passed; editable package installation remains unverified due prior build dependency/temp-directory failures.\n\nRecorded validation:\n- 2026-10-19 credentials/CI session: full workspace typechecks, both builds and 15 HTTP/continuation tests passed. Actual Next proxies on 3000/3001 reached API 4000 and returned 200/400/401/403; stopped API returned 500. Credential scan passed 33 assets. Read-only live psql succeeded. Migration generated/reviewed but not applied; browser, online audit, installed Python package, workflow and deployment verification remain pending.\n- 2026-10-19 follow-up: npm test passed 14/14. Environment inspection confirmed unchanged blocking proxy/offline settings; no repeated npm/Neon network attempts, no restriction changes, and no new frontend/database/deployment verification.\n- 2026-10-19 current session: npm test passed 14 tests (9 real loopback API/client integration checks, 5 continuation checks). These do not validate the frontend UI.\n- 2026-10-19 current session: npm run dev:api started on 127.0.0.1:4000. Actual HTTP results: live 200, ready 503 (database not_configured/inference not_implemented), capabilities 200 scaffold, invalid locale 400, admin 401.\n- 2026-10-19 current session: npm install failed ECONNREFUSED 127.0.0.1:9; Neon project list failed unreachable API; full typecheck failed missing dependencies; build and dev:web failed missing next. No frontend browser/proxy verification, Neon connection/migration/ownership check, or Vercel deployment.\n- Earlier session: API workspace tests passed; shared api-client declaration check passed with global tsc. Python 3.11.15 venv source import passed with PYTHONPATH, but editable package install remains unverified.\n- Rollback-only packages/db/tests/ownership.sql is prepared, never executed. Full evidence and next validation checklist: memory/LOCAL_VALIDATION.md.\n\nStart with the earliest unfinished task that can be progressed. Resolve missing verification before claiming completion. Keep credentials private; use an isolated development database for migrations.\n\nBefore ending: update the plan and memory with observed results, run npm run continuation, npm test, and npm run continuation:check, then link this prompt in the final response.\n",
+  "resume_index": {
+    "phase": 1,
+    "read_first": [
+      "memory/CONTINUATION_PROMPT.md",
+      "memory/LOCAL_VALIDATION.md"
+    ],
+    "code_entrypoints": {
+      "web": "apps/web/app/studio.tsx",
+      "api": "apps/api/src/server.mjs",
+      "database": "packages/db/src/schema.ts",
+      "contract": "apps/api/openapi.json"
+    },
+    "next_commands_after_network_restored": [
+      "gh auth status",
+      "neon projects list --output json",
+      "npm ci",
+      "npm audit",
+      "npm run typecheck",
+      "npm run build",
+      "npm run release:check"
+    ],
+    "guardrails": "Keep Phase 1 open. Verify isolated Shobdo Neon target before migration and rollback ownership test. No secret output or frontend credentials. Preserve backend/inference boundary. Repair environment/account access without modifying proxy/security restrictions. Production release gate must remain until observed Phase 1 acceptance passes.",
+    "runtime": "API restarted on loopback 4000; production web/admin started on 3000/3001 during this session. Recheck process availability in a new session."
+  },
+  "manual_setup_guidance": {
+    "date": "2026-10-19",
+    "status": "instructions_only_not_executed",
+    "scope": "User requested manual PowerShell commands for Neon project/database creation, isolated development branch, private root .env, migration/rollback ownership verification, local acceptance and Vercel frontend deployment.",
+    "evidence": "Read repository configs and installed Neon 5 CLI help for projects/branches/connection-string/psql; consulted official Neon and Vercel CLI, monorepo, environment and Hobby documentation. No network provisioning or deployment executed.",
+    "limitations": "Current frontend default proxy targets loopback API. UI preview can render without a hosted backend but API remains unavailable. A connected deployment requires an actual separately hosted API origin; DATABASE_URL belongs only in backend/root local .env. Vercel Hobby eligibility requires personal non-commercial use. All Phase 1 acceptance statuses unchanged."
+  },
+  "database_connection": {
+    "status": "verified_read_only_psql",
+    "project_id": "polished-bread-19441837",
+    "branch_id": "br-still-tooth-aoafetmt",
+    "database": "neondb",
+    "project_name_verified": false,
+    "isolated_branch_verified": false,
+    "credentials": "Only DATABASE_URL copied privately from supplied root .env.local to ignored root .env; no values recorded.",
+    "migration_applied": false
+  },
+  "cicd": {
+    "status": "local_configuration_only",
+    "origin": "https://github.com/proffesergio/shobdo.git",
+    "branch": "main",
+    "commit": null,
+    "pushed": false,
+    "workflow": ".github/workflows/ci-deploy.yml",
+    "vercel_api_project_id": "prj_bIQu96ZHXFRiXBE4YmeoK2jV5z4s",
+    "vercel_org_id": "team_m6SDnGnsVUsbqrtGRdQvqsWd",
+    "api_project_settings_verified": false,
+    "web_project_id": null,
+    "admin_project_id": null,
+    "deployed": false
+  }
+}

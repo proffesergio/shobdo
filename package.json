@@ -1,0 +1,21 @@
+{
+  "name": "shobdo",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["apps/*", "packages/db", "packages/api-client"],
+  "engines": { "node": ">=22 <25" },
+  "scripts": {
+    "dev:web": "npm run dev --workspace=@shobdo/web",
+    "dev:admin": "npm run dev --workspace=@shobdo/admin",
+    "dev:api": "node --env-file-if-exists=.env apps/api/src/server.mjs",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "secrets:check": "node scripts/check-browser-secrets.mjs",
+    "release:check": "node scripts/check-release-readiness.mjs",
+    "db:generate": "npm run generate --workspace=@shobdo/db",
+    "db:migrate": "npm run migrate --workspace=@shobdo/db",
+    "test": "node --test --test-isolation=none tests/*.test.mjs apps/api/tests/*.test.mjs",
+    "continuation": "node scripts/continuation.mjs",
+    "continuation:check": "node scripts/continuation.mjs --check"
+  }
+}

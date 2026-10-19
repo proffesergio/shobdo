@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "",
+  "installCommand": "npm ci --prefix ../..",
+  "git": { "deploymentEnabled": false },
+  "functions": {
+    "api/index.mjs": { "includeFiles": "openapi.json" }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
+  ]
+}
